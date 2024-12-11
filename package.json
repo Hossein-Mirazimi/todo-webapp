@@ -4,23 +4,25 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "dev": "esno server.ts",
+    "build": "bun run build:client && bun run build:server",
+    "build:client": "vue-tsc -b && vite build --outDir dist/client",
+    "build:server": "vue-tsc -b && vite build --ssr src/entry-server.ts --outDir dist/server",
+    "preview": "cross-env NODE_ENV=production esno server.ts"
   },
   "dependencies": {
     "@vue/server-renderer": "^3.5.13",
     "compression": "^1.7.5",
     "cross-env": "^7.0.3",
-    "@types/compression": "^1.7.5",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.10.1",
     "esno": "^4.8.0",
     "express": "^4.21.2",
     "sirv": "^3.0.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
     "@vitejs/plugin-vue": "^5.2.1",
     "typescript": "~5.6.2",
     "vite": "^6.0.1",
