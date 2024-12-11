@@ -10,6 +10,8 @@ const htmlTemplatePath = IS_PROD ? './dist/client/index.html' : 'index.html'
 
 const htmlTemplate = await fs.readFile(htmlTemplatePath, 'utf-8')
 
+type EntryServerExportType = typeof import('./src/entry-server.ts');
+
 const app = express();
 let vite: ViteDevServer | undefined;
 
@@ -38,13 +40,19 @@ app.use('*', async (req, res, next) => {
       : await vite!.transformIndexHtml(url, htmlTemplate);
 
     const { render } = IS_PROD
-      ? await import('./dist/server/entry-server')
-      : (await vite!.ssrLoadModule('./src/entry-server.ts'));
+      ? <EntryServerExportType>(await import('./dist/server/entry-server'))
+      : <EntryServerExportType>(await vite!.ssrLoadModule('./src/entry-server.ts'));
 
-    const { html: appHtml } = await render(url);
-    const html = template.replace('<!--app-html-->', appHtml);
+    const { html } = await render(url);
+    
+    const parseHtml = template
+      .replace('<!--app-html-attrs--->', html.htmlAttrs)
+      .replace('<!--app-head-->', html.headTags)
+      .replace('<!--app-body-attrs--->', html.bodyAttrs)
+      .replace('<!--app-html-->', html.appHtml)
+      .replace('<!--app-body-tags-->', html.bodyTags)
 
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    res.status(200).set({ 'Content-Type': 'text/html' }).end(parseHtml);
   } catch (error) {
     vite?.ssrFixStacktrace(error);
     console.error(error.stack);

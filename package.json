@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@vue/server-renderer": "^3.5.13",
+    "@vueuse/head": "^2.0.0",
     "compression": "^1.7.5",
     "cross-env": "^7.0.3",
     "esno": "^4.8.0",
