@@ -1,12 +1,17 @@
 import { renderToString } from "@vue/server-renderer";
-import { createApp } from './main'
 import { renderHeadToString } from "@vueuse/head";
+import { createApp } from './main'
 
 export async function render(_url: string) {
-    const { app, head } = createApp();
+    const { app, head, router } = createApp();
+
+    // set the router to the desired URL before rendering
+    router.push(_url);
+    await router.isReady();
 
     const ctx = {};
     const appHtml = await renderToString(app, ctx);
+
     const { headTags, htmlAttrs, bodyAttrs, bodyTags } = await renderHeadToString(head)
     
     const html = {
@@ -16,5 +21,5 @@ export async function render(_url: string) {
         bodyAttrs,
         bodyTags,
     }
-    return { html }
+    return { html, router }
 }

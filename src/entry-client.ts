@@ -1,6 +1,9 @@
 import './style.css'
 import { createApp } from './main';
 
-const { app } = createApp();
 
-app.mount('#app')
+(async() => {
+    const { app, router } = createApp();
+    await router.isReady();
+    app.mount('#app')
+})()
