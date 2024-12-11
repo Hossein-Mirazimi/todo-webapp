@@ -9,6 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vue/server-renderer": "^3.5.13",
+    "compression": "^1.7.5",
+    "cross-env": "^7.0.3",
+    "@types/compression": "^1.7.5",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "esno": "^4.8.0",
+    "express": "^4.21.2",
+    "sirv": "^3.0.0",
     "vue": "^3.5.13"
   },
   "devDependencies": {
