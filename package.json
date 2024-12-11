@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "esno server.ts",
+    "dev:spa": "vite",
     "build": "bun run build:client && bun run build:server",
     "build:client": "vue-tsc -b && vite build --outDir dist/client",
     "build:server": "vue-tsc -b && vite build --ssr src/entry-server.ts --outDir dist/server",

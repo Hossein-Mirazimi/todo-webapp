@@ -46,9 +46,9 @@ app.use('*', async (req, res, next) => {
     const { html } = await render(url);
     
     const parseHtml = template
-      .replace('<!--app-html-attrs--->', html.htmlAttrs)
+      .replace('<html>', () => `<html${html.htmlAttrs} ssr>`)
       .replace('<!--app-head-->', html.headTags)
-      .replace('<!--app-body-attrs--->', html.bodyAttrs)
+      .replace('<body>', () => `<body${html.bodyAttrs}>`)
       .replace('<!--app-html-->', html.appHtml)
       .replace('<!--app-body-tags-->', html.bodyTags)
 
