@@ -28,6 +28,8 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
     "@vitejs/plugin-vue": "^5.2.1",
+    "axios": "^1.7.9",
+    "k6": "^0.0.0",
     "typescript": "~5.6.2",
     "vite": "^6.0.1",
     "vite-plugin-pages": "^0.32.4",
