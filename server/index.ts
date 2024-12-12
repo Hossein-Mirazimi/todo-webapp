@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import express from 'express';
 import { ViteDevServer } from 'vite';
+import { renderToString } from '@vue/server-renderer';
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 5173;
@@ -10,7 +11,7 @@ const htmlTemplatePath = IS_PROD ? './dist/client/index.html' : 'index.html'
 
 const htmlTemplate = await fs.readFile(htmlTemplatePath, 'utf-8')
 
-type EntryServerExportType = typeof import('./src/entry-server.ts');
+type EntryServerExportType = typeof import('../src/entry-server.ts');
 
 const app = express();
 let vite: ViteDevServer | undefined;
@@ -39,17 +40,21 @@ app.use('*', async (req, res, next) => {
       ? htmlTemplate
       : await vite!.transformIndexHtml(url, htmlTemplate);
 
-    const { render } = IS_PROD
-      ? <EntryServerExportType>(await import('./dist/server/entry-server'))
+    const { render } = IS_PROD // @ts-ignore
+      ? <EntryServerExportType>(await import('../dist/server/entry-server.js'))
       : <EntryServerExportType>(await vite!.ssrLoadModule('./src/entry-server.ts'));
 
-    const { html } = await render(url);
-    
+    const { app, html, router } = await render(url);
+    const { renderMode = 'SSR'} = router.getRoutes().find(route => route.path === req.originalUrl)?.meta ?? {}
+    console.log(renderMode)
+    const ctx = {};
+    const appHtml = renderMode === 'SSR' ? (await renderToString(app, ctx)) : '';
+
     const parseHtml = template
       .replace('<html>', () => `<html${html.htmlAttrs} ssr>`)
       .replace('<!--app-head-->', html.headTags)
       .replace('<body>', () => `<body${html.bodyAttrs}>`)
-      .replace('<!--app-html-->', html.appHtml)
+      .replace('<!--app-html-->', appHtml)
       .replace('<!--app-body-tags-->', html.bodyTags)
 
     res.status(200).set({ 'Content-Type': 'text/html' }).end(parseHtml);

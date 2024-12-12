@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "esno server.ts",
+    "dev": "esno server",
     "dev:spa": "vite",
     "build": "bun run build:client && bun run build:server",
     "build:client": "vue-tsc -b && vite build --outDir dist/client",

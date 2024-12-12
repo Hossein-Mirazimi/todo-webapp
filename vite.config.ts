@@ -17,6 +17,7 @@ export default defineConfig(({ command }) => {
         resolver: 'vue',
         dirs: './src/pages',
         importMode: 'async',
+        routeBlockLang: 'json5',
       }),
       !isDev && buildPlugins
     ],

@@ -9,6 +9,7 @@ export function createApp() {
     const app = import.meta.env.SSR
         ? createSSRApp(App)
         : _createApp(App);
+        
     const router = createRouter({
         routes,
         history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory()

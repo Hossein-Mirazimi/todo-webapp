@@ -9,17 +9,17 @@ export async function render(_url: string) {
     router.push(_url);
     await router.isReady();
 
-    const ctx = {};
-    const appHtml = await renderToString(app, ctx);
-
     const { headTags, htmlAttrs, bodyAttrs, bodyTags } = await renderHeadToString(head)
     
     const html = {
-        appHtml,
         headTags,
         htmlAttrs,
         bodyAttrs,
         bodyTags,
     }
-    return { html, router }
+    return {
+        app,
+        html,
+        router,
+    }
 }

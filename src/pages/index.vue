@@ -1,3 +1,9 @@
+<route lang="json5">
+{
+    "meta": { "renderMode": "SSR" }
+}
+</route>
+
 <template>
     <div>
         <h1>Hello World</h1>

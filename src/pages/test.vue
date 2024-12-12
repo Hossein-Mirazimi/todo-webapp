@@ -1,3 +1,9 @@
+<route lang="json5">
+    {
+        "meta": { "renderMode": "SPA" }
+    }
+</route>
+
 <template>
     <div>
         <h1>Test Hello World</h1>
