@@ -1,19 +1,31 @@
-import fs from 'fs/promises';
+import fs from 'fs';
+import fsPromise from 'fs/promises';
+import path from 'node:path';
 import express from 'express';
+import { fileURLToPath } from 'url';
 import { ViteDevServer } from 'vite';
+import { renderToString } from '@vue/server-renderer';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const IS_PROD = process.env.NODE_ENV === 'production';
 const PORT = process.env.PORT || 5173;
 const BASE = process.env.BASE || '/';
 
 const htmlTemplatePath = IS_PROD ? './dist/client/index.html' : 'index.html'
+const isrFolderPath = path.resolve(__dirname, './dist/.isr')
 
-const htmlTemplate = await fs.readFile(htmlTemplatePath, 'utf-8')
+const htmlTemplate = await fsPromise.readFile(htmlTemplatePath, 'utf-8')
+
+const cacheLocks = Object.create(null) as Record<string, Promise<void> | undefined>
 
 type EntryServerExportType = typeof import('./src/entry-server.ts');
 
 const app = express();
 let vite: ViteDevServer | undefined;
+
+await fsPromise.mkdir(isrFolderPath, { recursive: true })
 
 if (IS_PROD) {
   // Production middlewares
@@ -32,27 +44,55 @@ if (IS_PROD) {
   app.use(vite.middlewares);
 }
 
-app.use('*', async (req, res, next) => {
+app.use('*', async (req, res) => {
   const url = req.originalUrl.replace(BASE, '');
+  const cacheRouteName = `${req.originalUrl.replaceAll('/', '_')}.html`;
+  const cachePath = path.resolve(isrFolderPath, cacheRouteName);
   try {
-    const template = IS_PROD
-      ? htmlTemplate
-      : await vite!.transformIndexHtml(url, htmlTemplate);
+    const hasCache = fs.existsSync(cachePath);
+    if (hasCache) {
+      const cacheHtml = await fsPromise.readFile(cachePath, 'utf-8');
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(cacheHtml);;
+      return;
+    }
+    if (!!cacheLocks[cacheRouteName]) {
+      await cacheLocks[cacheRouteName]
+      return;
+    }
+    cacheLocks[cacheRouteName] = (async () => {
+      try {
+        const template = IS_PROD
+          ? htmlTemplate
+          : await vite!.transformIndexHtml(url, htmlTemplate);
 
-    const { render } = IS_PROD
-      ? <EntryServerExportType>(await import('./dist/server/entry-server'))
-      : <EntryServerExportType>(await vite!.ssrLoadModule('./src/entry-server.ts'));
+        const { render } = IS_PROD
+          ? <EntryServerExportType>(await import('./dist/server/entry-server'))
+          : <EntryServerExportType>(await vite!.ssrLoadModule('./src/entry-server.ts'));
 
-    const { html } = await render(url);
-    
-    const parseHtml = template
-      .replace('<html>', () => `<html${html.htmlAttrs} ssr>`)
-      .replace('<!--app-head-->', html.headTags)
-      .replace('<body>', () => `<body${html.bodyAttrs}>`)
-      .replace('<!--app-html-->', html.appHtml)
-      .replace('<!--app-body-tags-->', html.bodyTags)
+        const { app, html } = await render(url);
 
-    res.status(200).set({ 'Content-Type': 'text/html' }).end(parseHtml);
+        const ctx = {};
+        const appHtml = await renderToString(app, ctx);
+
+        const parseHtml = template
+          .replace('<html>', () => `<html${html.htmlAttrs} ssr>`)
+          .replace('<!--app-head-->', html.headTags)
+          .replace('<body>', () => `<body${html.bodyAttrs}>`)
+          .replace('<!--app-html-->', appHtml)
+          .replace('<!--app-body-tags-->', html.bodyTags);
+
+        await fsPromise.writeFile(path.resolve(isrFolderPath, cacheRouteName), parseHtml)
+
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(parseHtml);
+      } catch (error) {
+        console.error(error.stack);
+        res.status(500).end('Internal Server Error');
+      } finally {
+        cacheLocks[cacheRouteName] = undefined
+      }
+    })();
+    await cacheLocks[cacheRouteName];
+
   } catch (error) {
     vite?.ssrFixStacktrace(error);
     console.error(error.stack);
