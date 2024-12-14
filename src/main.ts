@@ -6,8 +6,8 @@ import routes from '~pages';
 import App from "./App.vue";
 
 
-export function createApp() {
-    const app = createSSRApp(App)
+export function createApp(_isSSR = true) {
+    const app = _isSSR ? createSSRApp(App) : _createApp(App)
         
     const router = createRouter({
         routes,
@@ -20,6 +20,7 @@ export function createApp() {
         title: 'Vite + Vue + TS'
     });
     const ssrContext = createSSRContext();
+    
     app.use(ssrContext);
     app.use(router);
     app.use(head);

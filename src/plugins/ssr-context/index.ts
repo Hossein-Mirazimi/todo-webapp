@@ -14,7 +14,6 @@ export function createSSRContext () {
         install (app: App) {
             app.provide(SSR_PROVIDE_KEY, this);
             if(typeof window !== 'undefined' && window[HYDRATED_KEY as any]) {
-                console.log('sync with state', this)
                 Object.assign(this, window[HYDRATED_KEY as any]);
                 delete window[HYDRATED_KEY as any];
             }

@@ -61,11 +61,11 @@ app.use('*', async (req, res, next) => {
     const { renderMode = 'SSR'} = router.getRoutes().find(route => route.path === req.originalUrl)?.meta ?? {}
     
     const ctx = {} as { modules: string[] };
-    const appHtml = await renderToString(app, ctx) //renderMode === 'SSR' ? (await renderToString(app, ctx)) : '';
-    const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
+    const appHtml = renderMode === 'SSR' ? (await renderToString(app, ctx)) : '';
+    const preloadLinks = ctx.modules ? renderPreloadLinks(ctx.modules, manifest) : '';
 
     const parseHtml = template
-      .replace('<html>', () => `<html${html.htmlAttrs}>`)
+      .replace('<html>', () => `<html${html.htmlAttrs} data-ssr="${renderMode !== 'SPA'}">`)
       .replace('<!--app-head-->', html.headTags)
       .replace('<!--app-preload-->', preloadLinks)
       .replace('<body>', () => `<body${html.bodyAttrs}>`)
