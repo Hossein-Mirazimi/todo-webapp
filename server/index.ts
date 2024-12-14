@@ -22,7 +22,9 @@ if (IS_PROD) {
   // Production middlewares
   const compression = (await import('compression')).default;
   const sirv = (await import('sirv')).default;
-  app.use(helmet());
+  app.use(helmet({
+    contentSecurityPolicy: false
+  }));
   app.use(compression());
   app.use((req, res, next) => {
     if (req.url.endsWith('.html')) {
