@@ -68,6 +68,7 @@ export class FileBaseCache implements CacheInterface {
         logger.log('[FileBaseCache] Cache hit:', key);
         return data.content;
       } catch (error) {
+        // @ts-ignore
         if (error.code === 'ENOENT') {
           // File does not exist
           logger.log('[FileBaseCache] Cache miss:', key);
@@ -102,6 +103,7 @@ export class FileBaseCache implements CacheInterface {
         await fs.unlink(filePath);
         logger.log('[FileBaseCache] Cache deleted:', key);
       } catch (error) {
+        // @ts-ignore
         if (error.code !== 'ENOENT') {
           logger.error('[FileBaseCache] Error deleting cache file:', error);
         }

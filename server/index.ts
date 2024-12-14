@@ -17,10 +17,11 @@ const app = express();
 const _vite = await appMiddlewares(app)
 
 let vite: ViteDevServer | undefined = _vite ?? undefined;
-
+// @ts-ignore
 app.use(routeRuleMiddleware);
+// @ts-ignore
 app.use(renderRouter({ vite, htmlTemplate, ssrManifest}))
-app.use(errorHandlerMiddleware(vite))
+app.use(errorHandlerMiddleware())
 
 
 app.listen(PORT, () => {

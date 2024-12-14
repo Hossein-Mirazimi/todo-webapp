@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { IS_PROD } from "../config/env";
 import { logger } from "../utils/logger";
 interface ErrorHandlerOptions {
@@ -7,7 +7,7 @@ interface ErrorHandlerOptions {
 export function errorHandlerMiddleware(options: ErrorHandlerOptions = {}) {
     const { logErrors = true } = options;
   
-    return (err: any, req: Request, res: Response, next: NextFunction) => {
+    return (err: any, _: Request, res: Response) => {
       if (logErrors) {
         logger.error(`[${new Date().toISOString()}] Error:`, err.stack || err.message || err);
       }

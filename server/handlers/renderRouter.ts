@@ -7,6 +7,7 @@ import { ViteDevServer } from "vite";
 import path from "path";
 
 import { fileURLToPath } from 'url';
+import { logger } from "../utils/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,6 +29,7 @@ async function loadTemplateForRequest(url: string, htmlTemplate: string, vite?: 
   }
   async function loadRenderModule(vite?: ViteDevServer): Promise<EntryServerExportType> {
     if (IS_PROD) {
+      // @ts-expect-error
       return <EntryServerExportType>(await import('../../dist/server/entry-server.js'))
     } else {
       return <EntryServerExportType>(await vite!.ssrLoadModule(path.resolve(__dirname, '../../src/entry-server.ts')));
@@ -55,6 +57,7 @@ export const renderRouter = ({ vite, htmlTemplate: _htmlTemplate, ssrManifest}: 
             return res.status(200).send(spaHtml);
             
         } catch(error) {
+            // @ts-ignore
             vite?.ssrFixStacktrace(error);
             next(error)
         }

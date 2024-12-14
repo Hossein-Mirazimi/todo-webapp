@@ -2,6 +2,7 @@ import { createSSRApp, createApp as _createApp } from "vue";
 import { createHead } from "@vueuse/head";
 import { createRouter, createWebHistory, createMemoryHistory } from "vue-router";
 import { createSSRContext } from "./plugins/ssr-context";
+// @ts-ignore
 import routes from '~pages';
 import App from "./App.vue";
 
@@ -10,10 +11,10 @@ export function createApp(_isSSR = true) {
     const app = _isSSR ? createSSRApp(App) : _createApp(App)
         
     const router = createRouter({
-        routes,
+        routes, // @ts-ignore
         history: import.meta.env.SSR ? createMemoryHistory() : createWebHistory()
     });
-    const head = createHead({
+    const head = createHead({   
         htmlAttrs: {
             lang: 'en',
         },

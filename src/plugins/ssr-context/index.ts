@@ -13,8 +13,11 @@ export function createSSRContext () {
     return reactive<SSRContextData>(Object.create({
         install (app: App) {
             app.provide(SSR_PROVIDE_KEY, this);
+            // @ts-ignore
             if(typeof window !== 'undefined' && window[HYDRATED_KEY as any]) {
+                // @ts-ignore
                 Object.assign(this, window[HYDRATED_KEY as any]);
+                // @ts-ignore
                 delete window[HYDRATED_KEY as any];
             }
         },
