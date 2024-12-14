@@ -1,9 +1,8 @@
-import { renderToString } from "@vue/server-renderer";
 import { renderHeadToString } from "@vueuse/head";
 import { createApp } from './main'
 
 export async function render(_url: string) {
-    const { app, head, router } = createApp();
+    const { app, head, router, ssrContext } = createApp();
 
     // set the router to the desired URL before rendering
     router.push(_url);
@@ -21,5 +20,6 @@ export async function render(_url: string) {
         app,
         html,
         router,
+        ssrContext,
     }
 }

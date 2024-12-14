@@ -21,5 +21,8 @@ export default defineConfig(({ command }) => {
       }),
       !isDev && buildPlugins
     ],
+    build: {
+      manifest: true
+    }
   }
 })

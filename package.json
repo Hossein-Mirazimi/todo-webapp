@@ -7,9 +7,9 @@
     "dev": "esno server",
     "dev:spa": "vite",
     "build": "bun run build:client && bun run build:server",
-    "build:client": "vue-tsc -b && vite build --outDir dist/client",
+    "build:client": "vue-tsc -b && vite build --outDir dist/client --ssrManifest",
     "build:server": "vue-tsc -b && vite build --ssr src/entry-server.ts --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production esno server.ts"
+    "preview": "cross-env NODE_ENV=production esno server"
   },
   "dependencies": {
     "@vue/server-renderer": "^3.5.13",
@@ -18,6 +18,7 @@
     "cross-env": "^7.0.3",
     "esno": "^4.8.0",
     "express": "^4.21.2",
+    "helmet": "^8.0.0",
     "sirv": "^3.0.0",
     "vite-plugin-compression": "^0.5.1",
     "vue": "^3.5.13",
