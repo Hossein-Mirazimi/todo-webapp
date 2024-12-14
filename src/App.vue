@@ -10,6 +10,7 @@ import { RouterView } from 'vue-router';
       <li><RouterLink to="/">index</RouterLink></li>
       <li><RouterLink to="/test">Test</RouterLink></li>
       <li><RouterLink to="/404">404</RouterLink></li>
+      <li><RouterLink to="/isr">isr</RouterLink></li>
     </ul>
     </nav>
   </header>

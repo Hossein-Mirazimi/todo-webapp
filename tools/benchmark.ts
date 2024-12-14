@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { performance } from 'perf_hooks';
 
-const endpoint: string = 'http://localhost:5173/';
-const totalRequests: number = 1_000;
+const endpoint: string = 'http://localhost:5173/isr';
+const totalRequests: number = 1000;
 
 async function benchmark(): Promise<void> {
     const startTime: number = performance.now();

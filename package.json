@@ -9,7 +9,8 @@
     "build": "bun run build:client && bun run build:server",
     "build:client": "vue-tsc -b && vite build --outDir dist/client --ssrManifest",
     "build:server": "vue-tsc -b && vite build --ssr src/entry-server.ts --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production esno server"
+    "preview": "cross-env NODE_ENV=production esno server",
+    "benchmark": "esno ./tools/benchmark.ts"
   },
   "dependencies": {
     "@vue/server-renderer": "^3.5.13",
