@@ -11,14 +11,13 @@ import { logger } from "../utils/logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
+const entryServer = path.resolve(__dirname, '../../website/dist/server/entry-server')
+const devEntryServer = path.resolve(__dirname, '../../website/src/entry-server')
 interface RenderRouterParams {
     htmlTemplate: string;
     ssrManifest: Record<string, string[]>;
     vite: ViteDevServer | undefined;
 }
-
-type EntryServerExportType = typeof import('../../src/entry-server');
 
 async function loadTemplateForRequest(url: string, htmlTemplate: string, vite?: ViteDevServer): Promise<string> {
     if (IS_PROD) {
@@ -27,18 +26,18 @@ async function loadTemplateForRequest(url: string, htmlTemplate: string, vite?: 
       return vite!.transformIndexHtml(url, htmlTemplate);
     }
   }
-  async function loadRenderModule(vite?: ViteDevServer): Promise<EntryServerExportType> {
+  async function loadRenderModule(vite?: ViteDevServer): Promise<{ render: Function }> {
     if (IS_PROD) {
-      // @ts-expect-error
-      return <EntryServerExportType>(await import('../../dist/server/entry-server.js'))
+      return <ReturnType<typeof loadRenderModule>>(await import(entryServer))
     } else {
-      return <EntryServerExportType>(await vite!.ssrLoadModule(path.resolve(__dirname, '../../src/entry-server.ts')));
-    }
+      return <ReturnType<typeof loadRenderModule>>(await vite!.ssrLoadModule(devEntryServer));
+    } 
   }
 
 export const renderRouter = ({ vite, htmlTemplate: _htmlTemplate, ssrManifest}: RenderRouterParams) => {
     return async function (req: Request, res: Response, next: NextFunction) {
         const url = req.originalUrl.replace(BASE, '');
+        // @ts-ignore
         const { renderMode, revalidate } = req;
         logger.log(req.url, { renderMode, revalidate })
         const { render } = await loadRenderModule(vite);

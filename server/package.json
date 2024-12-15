@@ -1,0 +1,26 @@
+{
+  "name": "@app/server",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json --outDir dist"
+  },
+  "dependencies": {
+    "@vue/server-renderer": "^3.5.13",
+    "compression": "^1.7.5",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "sirv": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.5",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.1",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
