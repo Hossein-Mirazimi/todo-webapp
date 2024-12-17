@@ -13,7 +13,7 @@ const modelValue = defineModel<boolean>()
 .active {
     width: 24px;
     height: 24px;
-    background: url('../assets/icons/icon-check.svg'), linear-gradient(#57ddff, #c058f3);
+    background: url('../../assets/icons/icon-check.svg'), linear-gradient(#57ddff, #c058f3);
     background-position: center;
     background-repeat: no-repeat;
 }

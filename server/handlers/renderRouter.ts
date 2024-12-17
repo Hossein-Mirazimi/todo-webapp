@@ -2,17 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import {isrHandler} from './isrHandler';
 import {ssrHandler} from './ssrHandler';
 import {spaHandler} from './spaHandler';
-import { BASE, IS_PROD } from "../config/env.js";
+import { BASE, ENTRY_SERVER, IS_PROD } from "../config/env";
 import { ViteDevServer } from "vite";
 import path from "path";
 
 import { fileURLToPath } from 'url';
-import { logger } from "../utils/logger.js";
+import { logger } from "../utils/logger";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const entryServer = path.resolve(__dirname, '../../website/dist/server/entry-server')
-const devEntryServer = path.resolve(__dirname, '../../website/src/entry-server')
 interface RenderRouterParams {
     htmlTemplate: string;
     ssrManifest: Record<string, string[]>;
@@ -28,9 +24,9 @@ async function loadTemplateForRequest(url: string, htmlTemplate: string, vite?: 
   }
   async function loadRenderModule(vite?: ViteDevServer): Promise<{ render: Function }> {
     if (IS_PROD) {
-      return <ReturnType<typeof loadRenderModule>>(await import(entryServer))
+      return <ReturnType<typeof loadRenderModule>>(await import(ENTRY_SERVER))
     } else {
-      return <ReturnType<typeof loadRenderModule>>(await vite!.ssrLoadModule(devEntryServer));
+      return <ReturnType<typeof loadRenderModule>>(await vite!.ssrLoadModule(ENTRY_SERVER));
     } 
   }
 

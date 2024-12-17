@@ -2,10 +2,10 @@ import { createSSRApp, createApp as _createApp } from "vue";
 import { createHead } from "@vueuse/head";
 import { createRouter, createWebHistory, createMemoryHistory } from "vue-router";
 import { createSSRContext } from "./plugins/ssr-context";
-// @ts-ignore
 import routes from '~pages';
 import App from "./App.vue";
 import './style.css';
+
 export function createApp(_isSSR = true) {
     const app = _isSSR ? createSSRApp(App) : _createApp(App)
         

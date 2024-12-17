@@ -1,5 +1,6 @@
 import { Express } from 'express';
 import { BASE } from '../config/env';
+import { absoluteFromRoot } from '../utils/path';
 
 
 export async function prodMiddleWares (app: Express) {
@@ -20,5 +21,5 @@ export async function prodMiddleWares (app: Express) {
         }
         next();
     });
-    app.use(BASE, sirv('./dist/client', { extensions: [] }));
+    app.use(BASE, sirv(absoluteFromRoot('website/dist/client'), { extensions: [] }));
 }

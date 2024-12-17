@@ -1,9 +1,13 @@
 {
   "name": "@app/server",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "type": "module",
+  "main": "dist/server/index.js",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json --outDir dist"
+    "dev": "node ./dist/server/index.js",
+    "start": "cross-env NODE_ENV=production node ./dist/server/index.js",
+    "build": "pnpm run clear && tsc",
+    "clear": "rimraf dist"
   },
   "dependencies": {
     "@vue/server-renderer": "^3.5.13",
@@ -16,6 +20,7 @@
     "@types/compression": "^1.7.5",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.1",
+    "rimraf": "^6.0.1",
     "typescript": "~5.6.2",
     "vite": "^6.0.1"
   },

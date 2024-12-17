@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import type { TodoItem } from '../types';
-import Checkbox from './Checkbox.vue';
+import Checkbox from './ui/Checkbox.vue';
 interface IEmit {
     (event: 'checked', payload: TodoItem['id']): void
     (event: 'delete', payload: TodoItem['id']): void

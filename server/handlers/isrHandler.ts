@@ -1,13 +1,12 @@
 
 import path from 'path'
-import { fileURLToPath } from 'url';
 import { IS_PROD } from "../config/env";
 import { CacheManager, InMemoryCache, FileBaseCache } from "../utils/cacheManager"
 import { ssrHandler } from './ssrHandler';
+import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 const cacheDir = path.resolve(__dirname, '../../.cache')
 
 const cache = !IS_PROD ? new FileBaseCache(cacheDir) : new InMemoryCache()

@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "esno server",
+    "dev": "pnpm --filter @app/server dev",
     "dev:spa": "vite",
-    "build": "bun run build:client && bun run build:server",
-    "build:client": "vue-tsc -b && vite build --outDir dist/client --ssrManifest",
-    "build:server": "vue-tsc -b && vite build --ssr src/entry-server.ts --outDir dist/server",
-    "preview": "cross-env NODE_ENV=production esno server",
+    "build": "pnpm run build:client && pnpm run build:server && pnpm run add-extension",
+    "build:client": "pnpm --filter @app/website build",
+    "build:server": "pnpm --filter @app/server build",
+    "add-extension": "node tools/add.js ./server/dist",
+    "preview": "cross-env NODE_ENV=production node ./server/dist/server/index.js",
     "benchmark": "esno ./tools/benchmark.ts"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
   },
   "devDependencies": {
     "axios": "^1.7.9",
+    "cross-env": "^7.0.3",
     "k6": "^0.0.0"
   }
 }

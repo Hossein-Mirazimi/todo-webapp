@@ -1,3 +1,5 @@
+import routeRulesData from '../../routeRules';
+
 export interface RouteRenderMeta {
     renderMode: 'SSR' | 'ISR' | 'SPA';
     revalidate?: number;
@@ -35,5 +37,5 @@ class RouteRuleManager {
     }
 }
 
-const initialRouteRules = <RouteRules>(await import('../../routeRules').then(i => i.default));
+const initialRouteRules = <RouteRules>routeRulesData;
 export const routeRuleManager = new RouteRuleManager(initialRouteRules);

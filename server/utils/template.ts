@@ -7,5 +7,5 @@ export async function leadHtmlTemplate () {
 }
   
 export async function loadSSRManifest () {
-    return IS_PROD ? (await import(SSR_MANIFEST_PATH)) : {}
+    return IS_PROD ? (await import(SSR_MANIFEST_PATH, { assert: { type: 'json' } })) : {}
 }

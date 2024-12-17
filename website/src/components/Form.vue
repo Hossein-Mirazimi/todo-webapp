@@ -38,7 +38,6 @@ async function onSubmit () {
         if (!isValid()) return;
         isDisabled.value = true;
         await props.onSubmit({ text: todoText.value });
-        await new Promise(res => setTimeout(res, 3000));
         resetTodoText();
     } catch(err) {
         const message = err instanceof Error ? err.message : 'There is something wrong!! try again'
