@@ -1,28 +1,26 @@
-<route lang="json5">
-{
-    "meta": { "renderMode": "SSR" }
-}
-</route>
-
 <template>
-    <div>
-        <h1>Hello World {{ status }}</h1>
-        {{ dddddddd }}
-    </div>
+    <Container class="pt-[10dvh]">
+        <AppHeader class="mb-5" />
+        <Form class="mb-4" @submit="addNewTodo" />
+        <TodoLists class="mb-4" :todoLists="todoLists" />
+        <Filter v-model="filter" />
+        <p class="mt-8 text-center text-[#9394a5] opacity-80 text-sm">Drag and drop to reorder list</p>
+    </Container>
 </template>
 
 <script setup lang="ts">
-import { useAsyncData } from '../plugins/ssr-context/composable';
+import AppHeader from '../components/AppHeader.vue';
+import Container from '../components/Container.vue';
+import Form from '../components/Form.vue';
+import TodoLists from '../components/TodoLists.vue';
+import Filter from '../components/Filter.vue';
+import { useTodoListProvider } from '../composables/useTodoList';
 
-type ddd = {"userId":boolean,"id":boolean,"title":string,"completed":boolean}
-const { data: dddddddd, status } = useAsyncData<ddd, null>('test', async () => {
-    const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-    .then(response => response.json());
-
-    return res;
-}, { deep: false })
+const { todoLists, filter, addNewTodo } = useTodoListProvider()
 </script>
 
 <style scoped>
-
+.b {
+    color: #9394a5
+}
 </style>

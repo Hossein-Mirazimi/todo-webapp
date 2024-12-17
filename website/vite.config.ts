@@ -1,6 +1,7 @@
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
+import svgLoader from 'vite-svg-loader'
 
 
 // https://vite.dev/config/
@@ -19,6 +20,7 @@ export default defineConfig(({ command }) => {
         importMode: 'async',
         routeBlockLang: 'json5',
       }),
+      svgLoader(),
       !isDev && buildPlugins
     ],
     build: {
