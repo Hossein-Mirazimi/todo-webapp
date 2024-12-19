@@ -1,0 +1,42 @@
+# Ignore version control directories
+.git
+.gitignore
+
+# Ignore IDE and editor directories
+.DS_Store
+.vscode
+.idea
+
+# Ignore test coverage reports
+coverage
+
+# Ignore log files
+*.log
+
+# Ignore tools files
+tools
+
+# Ignore node_modules directories
+**/node_modules
+
+# Ignore build output directories
+**/dist
+**/build
+
+# Ignore local environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore pnpm store
+.pnpm-store
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+
+# Ignore temporary files
+tmp
+temp
+*.tmp
+*.swp

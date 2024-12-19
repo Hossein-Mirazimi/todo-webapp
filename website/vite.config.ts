@@ -23,6 +23,9 @@ export default defineConfig(({ command }) => {
       svgLoader(),
       !isDev && buildPlugins
     ],
+    ssr: {
+      noExternal: ['vue', 'vue-router', '@vueuse/head']
+    },
     build: {
       manifest: true
     }

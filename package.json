@@ -5,19 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "pnpm --filter @app/server dev",
-    "dev:spa": "vite",
     "build": "pnpm run build:client && pnpm run build:server",
     "build:client": "pnpm --filter @app/website build",
     "build:server": "pnpm --filter @app/server build",
     "preview": "cross-env NODE_ENV=production node ./server/dist/server/index.js",
     "benchmark": "esno ./tools/benchmark.ts"
   },
-  "dependencies": {
-    "esno": "^4.8.0"
-  },
   "devDependencies": {
     "axios": "^1.7.9",
     "cross-env": "^7.0.3",
-    "k6": "^0.0.0"
+    "k6": "^0.0.0",
+    "esno": "^4.8.0"
   }
 }
