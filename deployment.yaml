@@ -1,0 +1,56 @@
+# website-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-deployment
+  labels:
+    app: website-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website-deployment
+  template:
+    metadata:
+      labels:
+        app: website-deployment
+    spec:
+      containers:
+      - name: website
+        image: hosseinmirazimi/todo-app-website:latest
+        ports:
+        - containerPort: 3000
+
+--- 
+# website-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-service
+spec:
+  selector:
+    app: website-deployment
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+
+---
+# website-ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: website-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: my-app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: website-service
+            port:
+              number: 80
