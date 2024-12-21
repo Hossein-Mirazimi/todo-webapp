@@ -1,16 +1,9 @@
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import svgLoader from 'vite-svg-loader'
 
-
-// https://vite.dev/config/
-export default defineConfig(({ command }) => {
-  const isDev = command === 'serve';
-  const buildPlugins: Plugin[] = [
-      // Compression({}),
-      // Compression({ algorithm: 'brotliCompress', ext: '.br' }),
-  ]
+export default defineConfig(() => {
   return {
     plugins: [
       vue(),
@@ -21,13 +14,19 @@ export default defineConfig(({ command }) => {
         routeBlockLang: 'json5',
       }),
       svgLoader(),
-      !isDev && buildPlugins
     ],
     ssr: {
       noExternal: ['vue', 'vue-router', '@vueuse/head']
     },
     build: {
-      manifest: true
+      manifest: true,
+      rollupOptions: {
+        output: {
+          assetFileNames: assetInfo => `assets/${assetInfo.name}-[hash][extname]`,
+          chunkFileNames: assetInfo => `js/${assetInfo.name}-[hash].js`,
+          entryFileNames: assetInfo => `${assetInfo.name}-[hash].js`,
+        }
+      }
     }
   }
 })
