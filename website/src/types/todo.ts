@@ -1,8 +1,7 @@
 export interface TodoItem {
-    text: string;
-    checked: boolean;
+    title: string;
+    completed: boolean;
     id: string;
-    readonly createdAt: number;
 }
 
 export type TodoLists = TodoItem[];

@@ -15,7 +15,7 @@ import { ref } from 'vue';
 import { MaybePromise, TodoItem } from '../types';
 import { TodoTextEmptyError, UnfinishedActionError } from '../utils/error';
 interface IProps {
-    onSubmit: (todoItem: Pick<TodoItem, 'text'>) => MaybePromise<void>;
+    onSubmit: (todoItem: Pick<TodoItem, 'title'>) => MaybePromise<void>;
 }
 const props = defineProps<IProps>();
 
@@ -37,7 +37,7 @@ async function onSubmit () {
     try {
         if (!isValid()) return;
         isDisabled.value = true;
-        await props.onSubmit({ text: todoText.value });
+        await props.onSubmit({ title: todoText.value });
         resetTodoText();
     } catch(err) {
         const message = err instanceof Error ? err.message : 'There is something wrong!! try again'

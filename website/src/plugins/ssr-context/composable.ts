@@ -50,7 +50,7 @@ export function useAsyncData<DataT, ErrorT>(
 
     const state = {
         status: ref<AsyncDataStatus>(ctx[resolvedKey] ? 'success' : 'idle'),
-        data: (deep ? ref : shallowRef)<DataT | null>(ctx[resolvedKey] as DataT ?? unref(defaultData?.() ?? null)),
+        data: (deep ? ref : shallowRef)<DataT | null>(ctx[resolvedKey] as DataT ?? (defaultData ? unref(defaultData?.() ?? null) : null)),
         promise: null as Promise<DataT> | null,
         refresh: refreshData,
         error: ref<ErrorT | null>(null),

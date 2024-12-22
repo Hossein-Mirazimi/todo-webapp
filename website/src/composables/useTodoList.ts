@@ -1,30 +1,25 @@
-import { ref, computed } from 'vue';
+import { ref, computed, Ref } from 'vue';
 import { Filters, TodoItem, TodoLists } from '../types';
 import { generateId } from '../utils';
-import { useStorage } from '@vueuse/core'
 import { useProvideInject } from './useProviderInject';
 import { TodoItemNotFoundError } from '../utils/error';
 
-const TODO_STORAGE_KEY = 'todo_cache'
-
 const TODO_PROVIDER_SYMBOL = Symbol('TODO_PROVIDER_NAME')
 
-function useTodoList () {
-    const _todoLists = useStorage<TodoLists>(TODO_STORAGE_KEY, [], sessionStorage);
+function useTodoList (_todoLists: Ref<TodoLists>) {
     const filter = ref<Filters>(Filters.All);
 
     const todoLists = computed<TodoLists>(() => {
-        if (filter.value === Filters.Active) return _todoLists.value.filter(todo => !todo.checked);
-        if (filter.value === Filters.Completed) return _todoLists.value.filter(todo => todo.checked);
+        if (filter.value === Filters.Active) return _todoLists.value.filter(todo => !todo.completed);
+        if (filter.value === Filters.Completed) return _todoLists.value.filter(todo => todo.completed);
         return _todoLists.value;
     })
 
-    function addNewTodo({ text }: Pick<TodoItem, 'text'>) {
+    function addNewTodo({ title }: Pick<TodoItem, 'title'>) {
         const newTodoItem: TodoItem = {
             id: generateId(),
-            text,
-            checked: false,
-            createdAt: new Date().getDate(),
+            title,
+            completed: false,
         }
         
         _todoLists.value.push(newTodoItem)
@@ -48,14 +43,13 @@ function useTodoList () {
         };
     }
 
-    function completeTodoItem(id: TodoItem['id'], isChecked?: boolean) {
+    function completeTodoItem(id: TodoItem['id'], isCompleted?: boolean) {
         const { todoItem, index } = findTodoItemById(id);
         console.log('completed', id);
         const updatedTodoItem: TodoItem = {
             id: todoItem.id,
-            text: todoItem.text,
-            checked: typeof isChecked === 'undefined' ? !todoItem.checked : isChecked,
-            createdAt: todoItem.createdAt
+            title: todoItem.title,
+            completed: typeof isCompleted === 'undefined' ? !todoItem.completed : isCompleted,
         }
 
         _todoLists.value[index] = updatedTodoItem;
@@ -64,7 +58,7 @@ function useTodoList () {
     }
 
     function clearCompletedTodos () {
-        const unCompletedTodos = _todoLists.value.filter(todo => !todo.checked);
+        const unCompletedTodos = _todoLists.value.filter(todo => !todo.completed);
         if (unCompletedTodos.length === _todoLists.value.length) return;
 
         _todoLists.value = [...unCompletedTodos]

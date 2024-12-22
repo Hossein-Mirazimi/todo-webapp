@@ -6,11 +6,16 @@
 </template>
 
 <script setup lang="ts">
+import { useTodoListProvider } from '../composables/useTodoList';
+import { useAsyncData } from '../plugins/ssr-context/composable';
+import { fetchAllTodoApi } from '../api';
+
 import Form from './Form.vue';
 import TodoLists from './TodoLists.vue';
 import Filter from './Filter.vue';
-import { useTodoListProvider } from '../composables/useTodoList';
 
-const { todoLists, filter, addNewTodo } = useTodoListProvider()
+const { data: _todoLists } = useAsyncData('todos', () => fetchAllTodoApi().then(res => res.splice(0, 10)));
+// @ts-ignore
+const { todoLists, filter, addNewTodo } = useTodoListProvider(_todoLists)
 
 </script>
