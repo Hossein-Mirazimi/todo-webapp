@@ -3,7 +3,13 @@ import vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import svgLoader from 'vite-svg-loader'
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
+  const isBuild = command === 'build';
+
+  const ssrOptions = isBuild
+    ? { noExternal: ['vue', 'vue-router', '@vueuse/head'] }
+    : {}
+    
   return {
     plugins: [
       vue(),
@@ -15,9 +21,7 @@ export default defineConfig(() => {
       }),
       svgLoader(),
     ],
-    ssr: {
-      noExternal: ['vue', 'vue-router', '@vueuse/head']
-    },
+    ssr: ssrOptions,
     build: {
       manifest: true,
     }
