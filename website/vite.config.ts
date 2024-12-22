@@ -20,13 +20,6 @@ export default defineConfig(() => {
     },
     build: {
       manifest: true,
-      rollupOptions: {
-        output: {
-          assetFileNames: assetInfo => `assets/${assetInfo.name}-[hash][extname]`,
-          chunkFileNames: assetInfo => `js/${assetInfo.name}-[hash].js`,
-          entryFileNames: assetInfo => `${assetInfo.name}-[hash].js`,
-        }
-      }
     }
   }
 })
