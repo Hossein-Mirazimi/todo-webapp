@@ -11,7 +11,7 @@ services:
       - NODE_ENV=production
       - PORT=3000
     deploy:
-      replicas: 3
+      replicas: 1
       resources:
         limits:
           cpus: '0.5'
