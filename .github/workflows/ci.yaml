@@ -1,4 +1,5 @@
 name: CI
+name: CI
 
 on:
   push:
@@ -20,7 +21,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'pnpm'
 
       - name: Install pnpm
         run: |
@@ -31,7 +31,16 @@ jobs:
           corepack enable
           corepack prepare pnpm@latest --activate
           pnpm install
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm install
 
+      - name: Build client
+        run: pnpm --filter @app/website build
+
+      - name: Build server
+        run: pnpm --filter @app/server build
       - name: Build client
         run: pnpm --filter @app/website build
 
