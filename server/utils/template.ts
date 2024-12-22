@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
-import { IS_PROD, HTML_TEMPLATE_PATH, SSR_MANIFEST_PATH } from '../config/env'
+import { IS_PROD } from '../config/env'
+import { HTML_TEMPLATE_PATH, SSR_MANIFEST_PATH } from '../config/constants'
 
 export async function leadHtmlTemplate () {
     const path = HTML_TEMPLATE_PATH
