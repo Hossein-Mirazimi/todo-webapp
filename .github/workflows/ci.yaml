@@ -25,13 +25,21 @@ jobs:
       - name: Install pnpm
         run: |
           npm install -g pnpm
+          
+      - name: Cache pnpm store
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: |
           corepack enable
           corepack prepare pnpm@latest --activate
           pnpm install
-          
+
       - name: Build client
         run: pnpm --filter @app/website build
 
