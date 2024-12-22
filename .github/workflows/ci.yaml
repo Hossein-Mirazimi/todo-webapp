@@ -1,4 +1,4 @@
-name: Build and Install
+name: CI
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Specify your Node.js version
+          node-version: '18'
           cache: 'pnpm'
 
       - name: Install pnpm
@@ -27,7 +27,13 @@ jobs:
           npm install -g pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm install
 
-      - name: Build the project
-        run: pnpm run build
+      - name: Build client
+        run: pnpm --filter @app/website build
+
+      - name: Build server
+        run: pnpm --filter @app/server build
