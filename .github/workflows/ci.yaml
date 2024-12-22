@@ -31,12 +31,7 @@ jobs:
           corepack enable
           corepack prepare pnpm@latest --activate
           pnpm install
-
-      - name: Build client
-        run: pnpm --filter @app/website build
-
-      - name: Build server
-        run: pnpm --filter @app/server build
+          
       - name: Build client
         run: pnpm --filter @app/website build
 
