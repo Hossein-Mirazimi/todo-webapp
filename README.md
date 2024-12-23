@@ -8,6 +8,7 @@ This monorepo project includes both a server and a website application built wit
 
 - **Server**: Located in the `server` directory, built with Node.js and Express.
 - **Website**: Located in the `website` directory, built with Vue 3 and Vite.
+```
 todo-webapp/
 ├── .github/
 │   └── workflows/
@@ -113,9 +114,11 @@ todo-webapp/
 ├── pnpm-workspace.yaml
 ├── pnpm-lock.yaml
 ├── package.json
-└── .npmrc
-└── routeRules.ts
+├── .npmrc
+├── routeRules.ts
 └── tsconfig.json
+```
+
 ## Features
 
 - **Monorepo**: Managed with `pnpm` for efficient dependency management.
