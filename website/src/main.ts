@@ -17,7 +17,10 @@ export function createApp(_isSSR = true) {
         htmlAttrs: {
             lang: 'en',
         },
-        title: 'Vite + Vue + TS'
+        title: 'Todo App',
+        meta: [
+            { name: 'description', content: 'My Todo Application' },
+        ],
     });
     const ssrContext = createSSRContext();
     

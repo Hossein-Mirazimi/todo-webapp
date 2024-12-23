@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { useTodoListContext } from '../composables/useTodoList';
-import type { TodoLists } from '../types';
+import { useTodoListContext } from '../../composables/useTodoList';
+import type { TodoLists } from '../../types';
 import TodoItem from './TodoItem.vue';
 
 defineProps<{todoLists: TodoLists}>()

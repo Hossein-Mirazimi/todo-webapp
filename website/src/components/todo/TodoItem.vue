@@ -3,21 +3,20 @@
         <Checkbox :model-value="todoItem.completed" @update:model-value="$emit('checked', todoItem.id)" class="" />
         <div>{{todoItem.completed}}{{ todoItem.title }}</div>
         <button @click.stop="$emit('delete', todoItem.id)" class="size-[40px] rounded-full border-none ml-auto flex justify-center items-center bg-transparent">
-            <img src="../assets/icons/icon-cross.svg" width="15px" alt="">
+            <img src="../../assets/icons/icon-cross.svg" width="15px" alt="">
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
-import type { TodoItem } from '../types';
-import Checkbox from './ui/Checkbox.vue';
+import type { TodoItem } from '../../types';
+import Checkbox from '../ui/Checkbox.vue';
+
 interface IEmit {
     (event: 'checked', payload: TodoItem['id']): void
     (event: 'delete', payload: TodoItem['id']): void
 }
+
 defineProps<{ todoItem: TodoItem }>()
 defineEmits<IEmit>();
 </script>
-
-<style scoped>
-</style>

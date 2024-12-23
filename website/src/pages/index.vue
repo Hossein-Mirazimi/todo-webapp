@@ -8,5 +8,5 @@
 <script setup lang="ts">
 import AppHeader from '../components/layout/AppHeader.vue';
 import Container from '../components/ui/Container.vue';
-import Todo from '../components/Todo.vue';
+import Todo from '../components/todo/Todo.vue';
 </script>

@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import { useTodoListProvider } from '../composables/useTodoList';
-import { useAsyncData } from '../plugins/ssr-context/composable';
-import { fetchAllTodoApi } from '../api';
+import { useTodoListProvider } from '../../composables/useTodoList';
+import { useAsyncData } from '../../plugins/ssr-context/useAsyncData';
+import { fetchAllTodoApi } from '../../api';
 
 import Form from './Form.vue';
 import TodoLists from './TodoLists.vue';

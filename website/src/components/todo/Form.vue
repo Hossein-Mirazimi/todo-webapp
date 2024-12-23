@@ -12,8 +12,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { MaybePromise, TodoItem } from '../types';
-import { TodoTextEmptyError, UnfinishedActionError } from '../utils/error';
+import { MaybePromise, TodoItem } from '../../types';
+import { TodoTextEmptyError, UnfinishedActionError } from '../../utils/error';
 interface IProps {
     onSubmit: (todoItem: Pick<TodoItem, 'title'>) => MaybePromise<void>;
 }

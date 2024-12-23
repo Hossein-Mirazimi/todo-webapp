@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { fetchClient } from './../utils/client';
+import { fetchClient } from './client';
 
 export interface EndpointOptions {
     fullResponse?: boolean;

@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { Filters } from '../types/todo';
+import { Filters } from '../../types/todo';
 
 const modelValue = defineModel<Filters>();
 
