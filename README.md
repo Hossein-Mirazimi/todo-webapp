@@ -8,7 +8,114 @@ This monorepo project includes both a server and a website application built wit
 
 - **Server**: Located in the `server` directory, built with Node.js and Express.
 - **Website**: Located in the `website` directory, built with Vue 3 and Vite.
-
+todo-webapp/
+├── .github/
+│   └── workflows/
+│       └── ci.yaml
+├── server/
+│   ├── handlers/
+│   │   ├── isrHandler.ts
+│   │   ├── ssrHandler.ts
+│   │   ├── spaHandler.ts
+│   │   └── renderRouter.ts
+│   ├── middlewares/
+│   │   ├── dev.ts
+│   │   ├── prod.ts
+│   │   ├── index.ts
+│   │   ├── routeRules.ts
+│   │   └── error.ts
+│   ├── models/
+│   │   └── exampleModel.ts
+│   ├── routes/
+│   │   └── exampleRoute.ts
+│   ├── services/
+│   │   └── exampleService.ts
+│   ├── utils/
+│   │   ├── cacheManager.ts
+│   │   ├── logger.ts
+│   │   ├── path.ts
+│   │   ├── routeMetaManager.ts
+│   │   └── template.ts
+│   ├── index.ts
+│   ├── global.d.ts
+│   ├── add-extension.js
+│   ├── package.json
+│   └── tsconfig.json
+├── website/
+│   ├── src/
+│   │   ├── api/
+│   │   │   ├── client.ts
+│   │   │   ├── endpoint.ts
+│   │   │   └── index.ts
+│   │   ├── assets/
+│   │   │   ├── icons
+│   │   │   │   ├── icon-check.svg
+│   │   │   │   └── icon-cross.svg
+│   │   │   └── vue.svg
+│   │   ├── components/
+│   │   │   ├── common
+│   │   │   │   └── ClientOnly.vue
+│   │   │   ├── layout
+│   │   │   │   └── AppHeader.vue
+│   │   │   ├── ui
+│   │   │   │   ├── CheckBox.vue
+│   │   │   │   └── Container.vue
+│   │   │   └── todo
+│   │   │       ├── Filter.vue
+│   │   │       ├── Form.vue
+│   │   │       ├── Todo.vue
+│   │   │       ├── TodoItem.vue
+│   │   │       └── TodoLists.vue
+│   │   ├── composables/
+│   │   │   ├── useProviderInject.ts
+│   │   │   └── useTodoList.ts
+│   │   ├── pages/
+│   │   │   ├── [...all].vue
+│   │   │   ├── index.vue
+│   │   │   ├── isr.vue
+│   │   │   └── spa.vue
+│   │   ├── plugins/
+│   │   │   └── ssr-context
+│   │   │       ├── index.ts
+│   │   │       └── useAsyncData.ts
+│   │   ├── types/
+│   │   │   ├── index.ts
+│   │   │   ├── todo.ts
+│   │   │   └── utility.ts
+│   │   ├── utils/
+│   │   │   ├── generator.ts
+│   │   │   ├── error.ts
+│   │   │   └── index.ts
+│   │   ├── App.vue
+│   │   ├── main.ts
+│   │   ├── entry-client.ts
+│   │   ├── entry-server.ts
+│   │   ├── vite-env.d.ts
+│   │   └── style.css
+│   ├── public/
+│   │   ├── vite.svg
+│   │   ├── robot.txt
+│   │   └── icons
+│   │       ├── icon-48x48.png
+│   │       └── ...
+│   ├── index.html
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.node.json
+│   ├── tsconfig.json
+│   └── vite.config.ts
+├── deployment.yaml
+├── .dockerignore
+├── .gitignore
+├── README.md
+├── pnpm-workspace.yaml
+├── pnpm-lock.yaml
+├── package.json
+└── .npmrc
+└── routeRules.ts
+└── tsconfig.json
 ## Features
 
 - **Monorepo**: Managed with `pnpm` for efficient dependency management.
