@@ -21,5 +21,5 @@ export async function prodMiddleWares (app: Express) {
         }
         next();
     });
-    app.use(BASE, sirv(absoluteFromRoot('website/dist/client'), { extensions: [] }));
+    app.use(BASE, sirv(absoluteFromRoot('website/dist/client'), {}));
 }
